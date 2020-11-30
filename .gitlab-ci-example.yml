@@ -1,0 +1,67 @@
+---
+variables:
+  # image:commit-sha  (first 8 characters)
+  CONTAINER_TAG_COMMIT_SHA: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  # image:branch
+  CONTAINER_TAG_BRANCH: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  # image:latest
+  CONTAINER_TAG_LATEST: $CI_REGISTRY_IMAGE:latest
+
+stages:
+  - build-develop
+  - build-master
+
+# -------------------
+# develop branch only
+# -------------------
+build-develop:
+  stage: build-develop
+  tags:
+    - shell
+  only:
+    refs:
+      - develop
+    changes:
+      # build on changes to a Dockerfile or supporting files
+      - Dockerfile
+      - "sources/*"
+  script:
+    # Login to Registry
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+    # Build the image
+    - docker build --tag $CONTAINER_TAG_COMMIT_SHA
+      --tag $CONTAINER_TAG_BRANCH
+      --tag $CONTAINER_TAG_LATEST .
+
+    # Push the created docker image to Registry
+    - docker push $CONTAINER_TAG_COMMIT_SHA
+    - docker push $CONTAINER_TAG_BRANCH
+    - docker push $CONTAINER_TAG_LATEST
+
+# ------------------
+# master branch only
+# ------------------
+build-master:
+  stage: build-master
+  tags:
+    - shell
+  only:
+    refs:
+      - master
+    changes:
+      # build on changes to a Dockerfile or supporting files
+      - Dockerfile
+      - "sources/*"
+  script:
+    # Login to Registry
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+    # Build the image
+    - docker build --tag $CONTAINER_TAG_COMMIT_SHA
+      --tag $CONTAINER_TAG_BRANCH .
+
+    # Push the created docker image to Registry
+    - docker push $CONTAINER_TAG_COMMIT_SHA
+    - docker push $CONTAINER_TAG_BRANCH
+...

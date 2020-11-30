@@ -1,0 +1,8 @@
+# security testing
+bandit
+# formatting
+black
+# syntax linting
+pylint
+# unit testing
+pytest
