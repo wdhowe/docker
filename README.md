@@ -6,7 +6,8 @@ Applications deployed in docker.
 
 ## Directories
 
-* flask_demo -> A simple flask application using restful APIs.
+* clojure-lein -> Generalized openjdk-lein image that will build and run any lein based Clojure uberjar.
+* flask-demo -> A simple flask application using restful APIs.
 * packer-build -> Alpine image with Packer and Ansible
 * py3shtester -> Alpine image with python and shell lint/testing software.
 * py3tester -> Python3 image with packages for testing python code.
