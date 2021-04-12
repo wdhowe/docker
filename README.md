@@ -6,6 +6,7 @@ Applications deployed in docker.
 
 ## Directories
 
+* clojure-dev -> An Ubuntu minimal LTS based image for persistent Clojure development.
 * clojure-lein -> Generalized openjdk-lein image that will build and run any lein based Clojure uberjar.
 * flask-demo -> A simple flask application using restful APIs.
 * packer-build -> Alpine image with Packer and Ansible
