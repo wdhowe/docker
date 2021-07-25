@@ -13,12 +13,15 @@ RUN apt-get update && \
     wget
 
 # Clojure installation
-ENV CLJ_VERSION=1.10.3.822
+ENV CLJ_VERSION=1.10.3.905
 RUN wget https://download.clojure.org/install/linux-install-${CLJ_VERSION}.sh && \
     chmod +x linux-install-${CLJ_VERSION}.sh && \
     ./linux-install-${CLJ_VERSION}.sh && \
     rm -f ./linux-install-${CLJ_VERSION}.sh && \
     clj -P
+
+# CLJ Tools
+RUN clj -Ttools install com.github.seancorfield/clj-new '{:git/tag "v1.1.324"}' :as new
 
 # Leiningen installation
 RUN wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
