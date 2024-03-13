@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 # Development packages
 RUN apt-get update && \
@@ -13,15 +13,14 @@ RUN apt-get update && \
     wget
 
 # Clojure installation
-ENV CLJ_VERSION=1.10.3.905
-RUN wget https://download.clojure.org/install/linux-install-${CLJ_VERSION}.sh && \
-    chmod +x linux-install-${CLJ_VERSION}.sh && \
-    ./linux-install-${CLJ_VERSION}.sh && \
-    rm -f ./linux-install-${CLJ_VERSION}.sh && \
+RUN wget https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh && \
+    chmod +x linux-install.sh && \
+    ./linux-install.sh && \
+    rm -f ./linux-install.sh && \
     clj -P
 
 # CLJ Tools
-RUN clj -Ttools install com.github.seancorfield/clj-new '{:git/tag "v1.1.324"}' :as new
+RUN clj -Ttools install-latest :lib io.github.seancorfield/deps-new :as new
 
 # Leiningen installation
 RUN wget https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
